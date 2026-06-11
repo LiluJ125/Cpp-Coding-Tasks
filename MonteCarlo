@@ -1,0 +1,34 @@
+#include "Riostream.h"
+#include "TMath.h"
+#include "TRandom3.h"
+
+double generateRandom() {
+	TRandom3 rand(0);
+	double value = rand.Rndm();
+
+	return value;
+}
+
+double calc_pi(int n) {
+
+	double counter = 0;
+	double x;
+	double y;
+	double r;
+
+	for(int i = 0; i < n; i++) {
+		x = generateRandom();
+		y = generateRandom();
+		r = sqrt(pow(x,2) + pow(y,2));
+
+		if (r <= 1) {
+			counter += 1;
+		}
+	}
+
+	double ratio = counter / n;
+	double pi = ratio * 4;
+
+
+	return pi;
+}

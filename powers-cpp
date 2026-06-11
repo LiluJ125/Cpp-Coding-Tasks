@@ -1,0 +1,21 @@
+#include <TMath.h>
+#include <iostream>
+
+int powers_cpp(){
+	int number;
+
+	std::cout << "Enter a number. ";
+	std::cin >> number;
+
+	while (number / 2 != 1){
+		if (number % 2 == 0){
+			number = number / 2;
+		}
+		else {
+			std::cout << "The number is not a power of 2.";
+			return 0;
+		}
+	}
+	std::cout << "The number is a power of 2.";
+	return 0;
+}
