@@ -33,4 +33,3 @@ void spherical_coord() {
 	h3->Draw("LEGO2");
 }
 
-

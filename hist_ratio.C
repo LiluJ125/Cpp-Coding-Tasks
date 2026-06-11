@@ -5,6 +5,24 @@
 /*void div_hist(std::string num_File = "~/opt/EvGen26/out/5cm/compton_p_200_in.root", std::string num_hist = "h3", std::string den_File = "~/opt/AR/acqu_user/ARout/CB/MC_p_200MeV.root", std::string den_hist = "PHYS_PhotonEnergy") {
 */
 
+void rebin_hist(TH1F oldHist, TH1F refHist) {
+	//getting the information from one histogram that will determine the bins of the new histogram
+	int nbins = refHist->GetNbinsX();
+	double xMin = refHist->GetXaxis()->GetXmin();
+	double xMax = refHist->GetXaxis()->GetXmax();
+
+	//clones the histogram you're rebinning and resets its bin sizes to match refHist
+	TH1F *h_rebinned = (TH1F*)oldHist->Clone("h_rebinned");
+	h_rebinned->Reset();
+
+	//loops through each of the original histogram bins, takes the center of the bin and everything in it, and adds it to h_rebinned, where the information is sorted into the new bins
+	for (int i = 1; i <= oldHist->GetNbinsX(); i++) {
+		double center = oldHist->GetBinCenter(i);
+		double content = oldHist->GetBinContent(i);
+		h_rebinned->Fill(center, content);
+	}
+}
+/*
 void div_hist() {
 
 	std::string num_File;
@@ -39,19 +57,12 @@ void div_hist() {
 	c1->cd(2); //pick second space on canvas
 	hDenom->Draw("HIST");
 
-	// Rebin histograms equally in order to divide
-	int n_new_bins = 40;
-	double xMin = 0.0;
-	double xMax = 800;
-
-	double *edges = new double[n_new_bins + 1];
-	double binWidth = (xMax - xMin) / n_new_bins;
-	for (int i = 0; i <= n_new_bins; i++) {
-		edges[i] = xMin + i * binWidth;
+	// Check to see if histograms have same number of bins. If not, rebin histograms equally in order to divide
+	if (hNumer->GetNbinsX() > hDenom->GetNbinsX()) {
+		rebin_hist(hDenom, hNumer);
+	} else if (hNumer->GetNbinsX() < hDenom->GetNbinsX()){
+		rebin_hist(hNumer, hDenom);
 	}
-
-	TH1F *new_hNumer = (TH1F*) hNumer->Rebin(n_new_bins, "new hNumer", edges);
-	TH1F *new_hDenom = (TH1F*) hDenom->Rebin(n_new_bins, "new hDenom", edges);
 
 
 	TH1F *h_ratio;
@@ -61,3 +72,5 @@ void div_hist() {
 	h_ratio->Draw("HIST");
 	
 }
+*/
+
