@@ -22,10 +22,10 @@ void det_eff(std::string num_File = "~/opt/EvGen26/out/5cm/compton_p_200_in.root
 	}
 
 	Int_t nbins = Real_num->GetNbinsX();
-	for (Int_t i = 1; i <= nbins; i++) {
+/*	for (Int_t i = 1; i <= nbins; i++) {
    		printf("Bin %d (x = %g): Content = %g\n", i, Real_num->GetBinCenter(i), Real_num->GetBinContent(i));
 	}
-
+*/
 	TH1F *Real_den = new TH1F("Real_den", "Denominator", 30, 0.0, 300);
 	Real_den->SetMaximum(70000);
 
@@ -36,10 +36,10 @@ void det_eff(std::string num_File = "~/opt/EvGen26/out/5cm/compton_p_200_in.root
 	}
 
 	Int_t rbins = Real_den->GetNbinsX();
-	for (Int_t i = 1; i <= rbins; i++) {
+/*	for (Int_t i = 1; i <= rbins; i++) {
    		printf("Bin %d (x = %g): Content = %g\n", i, Real_den->GetBinCenter(i), Real_den->GetBinContent(i));
 	}
-
+*/
 	c1->cd(1); //pick first space on canvas
 	hNumer->Draw("HIST");
 
@@ -51,17 +51,16 @@ void det_eff(std::string num_File = "~/opt/EvGen26/out/5cm/compton_p_200_in.root
 	TH1F *h_div = (TH1F*)Real_num->Clone("h_div");
 	h_div->Reset();
 	h_div->Divide(Real_num, Real_den);
+	h_div->SetTitle("Divided Histogram");
 
 	Int_t sbins = h_div->GetNbinsX();
-	for (Int_t i = 1; i <= sbins; i++) {
+/*	for (Int_t i = 1; i <= sbins; i++) {
    		printf("Bin %d (x = %g): Content = %g\n", i, h_div->GetBinCenter(i), h_div->GetBinContent(i));
 	}
-
-	TCanvas *c2 = new TCanvas("c2", "Divided Histograms", 800, 800);
-	c2->Divide(1,2);
-	c2->cd(1);;
-	h_div->Draw("HIST");
-
+*/
+	TCanvas *c2 = new TCanvas("c2", "Divided Histograms", 800, 800); 
+	h_div->DrawCopy("HIST");
+	std::cout << h_div->GetEntries() << endl;
 }
 
 
